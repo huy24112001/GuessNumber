@@ -1,5 +1,7 @@
 import { Text, View, StyleSheet, Button, ScrollView, Alert } from "react-native";
-import {useState} from 'react';
+import { useEffect, useState } from "react";
+import TittleScreen from "../components/TittleScreen";
+import ItemsGame from "../components/ItemsGame";
 
 function GameScreen(props) {
   const [leftNb, setLeftNb] = useState(1);
@@ -7,13 +9,13 @@ function GameScreen(props) {
   const [numberRandom, setNumberRandom] = useState(getRndInteger(1, 99));
   const [listText, setListText] = useState([]);
   const [timeNumber,setTimeNumber] = useState(0)
-  console.log(timeNumber,numberRandom);
 
-  if(numberRandom == props.number){
-    props.onOver(true)
-  } else if(timeNumber == 2){
-    props.onOver(false)
-  }
+  useEffect(() => {
+
+    if(numberRandom === props.number){
+      props.onOver(true,timeNumber)
+    }
+  }, [numberRandom, timeNumber])
 
 
   function getRndInteger(min, max) {
@@ -25,7 +27,7 @@ function GameScreen(props) {
      let txt;
     if (props.number > numberRandom) {
       setTimeNumber(timeNumber+1)
-      txt = 'Bạn đã gợi ý ' + (timeNumber+1)+' lần.';
+      txt = ' #' +(timeNumber+1)+'             Điện thoại bạn đoán: '+numberRandom;
       setListText([txt,...listText]);
       setLeftNb(numberRandom+1);
       setNumberRandom(getRndInteger(numberRandom+1, rightNb));
@@ -39,7 +41,7 @@ function GameScreen(props) {
         },
       ]);
 
-       // setNumberRandom(getRndInteger(leftNb, rightNb));
+
     }
 
   }
@@ -47,7 +49,7 @@ function GameScreen(props) {
      let txt;
     if (props.number < numberRandom) {
       setTimeNumber(timeNumber+1)
-      txt = 'Bạn đã gợi ý ' + (timeNumber+1)+' lần.';
+      txt = ' #' +(timeNumber+1)+'             Điện thoại bạn đoán: '+numberRandom;
       setListText([txt,...listText])
       setRightNb(numberRandom-1);
       setNumberRandom(getRndInteger(leftNb, numberRandom-1));
@@ -67,9 +69,7 @@ function GameScreen(props) {
 
   return (
     <View>
-      <View style={styles.title}>
-        <Text style={styles.text}>Game Đoán Số</Text>
-      </View>
+      <TittleScreen name={'Game đoán số'}/>
       <View style={styles.Vnumber}>
         <Text style={styles.nber}>{numberRandom}</Text>
       </View>
@@ -77,31 +77,29 @@ function GameScreen(props) {
           <Text style={styles.hbody}>Số đúng lớn hoặc nhỏ hơn ?</Text>
           <View style={styles.Vbtn}>
             <View style={styles.btn}>
-              <Button title={'Lớn'} onPress={CaoHon} />
+              <Button color={'#734747'} title={'Lớn'} onPress={CaoHon} />
             </View>
             <View style={styles.btn}>
-              <Button title={'Nhỏ'} onPress={ThapHon} />
+              <Button color={'#734747'} title={'Nhỏ'} onPress={ThapHon} />
             </View>
         </View>
-          <ScrollView><Text>Bạn đươc phép gợi ý tối đa 5 lần.</Text>
-            {listText.map(items => {
-              return <Text key={items}>{items}</Text>;
-            })}
+          <Text style={
+            {
+              textAlign:'center'
+            }
+          }>Bạn sẽ thắng nếu phải gợi ý trên 5 lần.</Text>
+        </View>
+          <ScrollView>
+            {listText.map((items) => {
+              return <ItemsGame key={items} name={items}   />
+              })}
           </ScrollView>
-      </View>
+
     </View>
   );
 }
 const styles = StyleSheet.create({
-  title: {
-    width: 250,
-    height: 50,
-    marginLeft: 10,
-    marginTop: 50,
-    paddingTop: 10,
-    borderWidth: 2,
-    borderColor: '#ffffff',
-  },
+
   Vnumber: {
     width: 250,
     height: 100,
@@ -109,22 +107,17 @@ const styles = StyleSheet.create({
     marginTop: 30,
     paddingTop: 35,
     borderWidth: 2,
-    borderColor: '#574040',
+    borderColor: '#c9a93d',
     alignItems: 'center',
   },
 
-  text: {
-    textAlign: 'center',
-    fontSize: 20,
-    color: '#ffffff',
-  },
   nber: {
-    color: '#574040',
+    color: '#c9a93d',
     fontSize:22,
   },
   body: {
     width: 270,
-    height: 400,
+    height: 165,
     backgroundColor: '#342424FF',
     marginTop: 50,
     paddingTop: 35,

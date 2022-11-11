@@ -6,7 +6,7 @@ function StartGameScreen(props) {
 
   function XacNhan() {
     const number = parseInt(inputNumber);
-    if (inputNumber == '') {
+    if (inputNumber === '') {
       Alert.alert('Không hợp lệ', 'Bạn chưa nhập số', [
         {text: 'Đồng ý', style: 'destructive', onPress: DatLai},
       ]);
@@ -39,10 +39,10 @@ function StartGameScreen(props) {
         onChangeText={setInputNumber}
       />
       <View style={styles.btn}>
-        <Button title={'Xác nhận'} onPress={XacNhan} />
+        <Button color={'#734747'} title={'Xác nhận'} onPress={XacNhan} />
       </View>
       <View style={styles.btn}>
-        <Button title={'Đặt lại'} onPress={DatLai} />
+        <Button color={'#734747'} title={'Đặt lại'} onPress={DatLai} />
       </View>
     </View>
   );
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     width: 250,
     height: 180,
-    backgroundColor: '#524949',
+    backgroundColor: '#442e2e',
     alignItems: 'center',
     justifyContent: 'space-evenly',
     borderRadius: 8,
@@ -62,9 +62,12 @@ const styles = StyleSheet.create({
     color: 'black',
     height: 45,
     width: 200,
-    fontSize: 20,
+    fontSize: 17,
     // marginLeft:15,
-    borderWidth: 1,
+    // borderWidth: 1,
+    borderBottomColor:'orange',
+    borderBottomWidth: 1,
+
     textAlign: 'center',
     borderRadius: 5,
   },
